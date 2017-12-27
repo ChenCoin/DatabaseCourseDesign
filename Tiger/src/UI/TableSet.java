@@ -77,12 +77,12 @@ public class TableSet {
 	    }
 	});
 
-	Button searchBtn = (Button) parent.lookup("#search_btn");
-	searchBtn.setOnAction((ActionEvent e) -> {
-	    if (tableFocus) {
-		System.out.println(table.getFocusModel().getFocusedCell().getRow());
-	    }
-	});
+//	Button searchBtn = (Button) parent.lookup("#search_btn");
+//	searchBtn.setOnAction((ActionEvent e) -> {
+//	    if (tableFocus) {
+//		System.out.println(table.getFocusModel().getFocusedCell().getRow());
+//	    }
+//	});
     }
 
     private void itemSelect(boolean b) {

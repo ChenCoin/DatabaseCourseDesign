@@ -5,10 +5,22 @@
  */
 package UI;
 
+import javafx.scene.Parent;
+
 /**
  *
  * @author coin
  */
 public class Page {
-    
+
+    Parent parent;
+
+    public Page(Parent parent) {
+	this.parent = parent;
+    }
+
+    public void init() {
+
+    }
+
 }

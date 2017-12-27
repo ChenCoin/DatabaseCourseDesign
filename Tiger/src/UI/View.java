@@ -30,6 +30,11 @@ public class View {
 	TableSet tableSet = new TableSet(parent);
 	tableSet.init();
 	
+	Page page = new Page(parent);
+	page.init();
+	
+	Event event = new Event(parent);
+	event.init();
 
     }
 
