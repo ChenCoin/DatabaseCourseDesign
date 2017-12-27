@@ -1,0 +1,6 @@
+#mysql -u root -p 
+#123
+
+#show databases;
+
+source /home/coin/SQL/forum.sql
