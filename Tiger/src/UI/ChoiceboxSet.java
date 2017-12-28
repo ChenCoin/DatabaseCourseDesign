@@ -24,8 +24,8 @@ public class ChoiceboxSet {
     }
 
     public void init() {
-	ChoiceBox term = (ChoiceBox) parent.lookup("#term");
-	ChoiceBox condition = (ChoiceBox) parent.lookup("#condition");
+	ChoiceBox term = context.term;
+	ChoiceBox condition = context.condition;
 
 	term.getSelectionModel().selectedIndexProperty().addListener((ov, oldv, newv) -> {
 	    context.termCBox = newv.intValue();

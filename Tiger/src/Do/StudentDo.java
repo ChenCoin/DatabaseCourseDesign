@@ -5,12 +5,20 @@
  */
 package Do;
 
+import tiger.Context;
+
 /**
  *
  * @author coin
  */
 public class StudentDo implements Do{
 
+    private Context context;
+    
+    public StudentDo(Context context){
+	this.context = context;
+    }
+    
     @Override
     public void add() {
 	

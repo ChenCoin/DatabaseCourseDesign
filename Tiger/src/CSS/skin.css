@@ -29,6 +29,14 @@ and open the template in the editor.
     -fx-effect: dropshadow( one-pass-box , #333333 , 8 , 0.0 , 2 , 2 );
 }
 
+.text-field{
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #333333;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 0 8 0 8;
+}
+
 .button{
     -fx-background-color: #FFFFFF;
     -fx-text-fill: #333333;

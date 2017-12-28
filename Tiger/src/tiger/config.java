@@ -36,6 +36,4 @@ public class config {
 	}
     };
 
-    public static Do todo = new StudentDo();
-
 }

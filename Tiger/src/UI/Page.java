@@ -8,14 +8,12 @@ package UI;
 import DB.DB;
 import DB.DBresult;
 import Do.CourseDo;
-import Do.Do;
 import Do.GradeDo;
 import Do.StudentDo;
 import Do.TeacherDo;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -31,31 +29,28 @@ import tiger.Context;
  */
 public class Page {
 
-    Parent parent;
-    Context context;
-    Do todo;
+    private final Context context;
 
-    public Page(Parent parent, Do todo, Context context) {
-	this.parent = parent;
-	this.todo = todo;
+    public Page(Context context) {
 	this.context = context;
+	init();
     }
 
-    public void init() {
-	Label gradePage = (Label) parent.lookup("#gradepage");
-	Label studentPage = (Label) parent.lookup("#studentpage");
-	Label teacherPage = (Label) parent.lookup("#teacherpage");
-	Label coursePage = (Label) parent.lookup("#coursepage");
-	Label infoPage = (Label) parent.lookup("#infopage");
+    private void init() {
 
-	HBox morePage = (HBox) parent.lookup("#morepage");
-	AnchorPane tablePage = (AnchorPane) parent.lookup("#tablepage");
-
-	Label termTxt = (Label) parent.lookup("#termtxt");
-	ChoiceBox term = (ChoiceBox) parent.lookup("#term");
-	ChoiceBox condition = (ChoiceBox) parent.lookup("#condition");
-
+	Label gradePage = context.gradePage;
+	Label studentPage = context.studentPage;
+	Label teacherPage = context.teacherPage;
+	Label coursePage = context.coursePage;
+	Label infoPage = context.infoPage;
 	Label[] page = {gradePage, studentPage, teacherPage, coursePage, infoPage};
+
+	HBox morePage = context.morePage;
+	AnchorPane tablePage = context.tablePage;
+
+	Label termTxt = context.termTxt;
+	ChoiceBox term = context.term;
+	ChoiceBox condition = context.condition;
 
 	gradePage.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
 	    gradepageInit();
@@ -75,7 +70,7 @@ public class Page {
 	    termTxt.setPrefWidth(0);
 	    term.setPrefWidth(0);
 
-	    todo = new StudentDo();
+	    context.todo = new StudentDo(context);
 	});
 
 	teacherPage.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
@@ -92,7 +87,7 @@ public class Page {
 	    termTxt.setPrefWidth(0);
 	    term.setPrefWidth(0);
 
-	    todo = new TeacherDo();
+	    context.todo = new TeacherDo(context);
 	});
 
 	coursePage.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
@@ -109,7 +104,7 @@ public class Page {
 	    termTxt.setPrefWidth(45);
 	    term.setPrefWidth(72);
 
-	    todo = new CourseDo();
+	    context.todo = new CourseDo(context);
 	});
 
 	infoPage.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
@@ -124,19 +119,20 @@ public class Page {
     }
 
     public void gradepageInit() {
-	Label gradePage = (Label) parent.lookup("#gradepage");
-	Label studentPage = (Label) parent.lookup("#studentpage");
-	Label teacherPage = (Label) parent.lookup("#teacherpage");
-	Label coursePage = (Label) parent.lookup("#coursepage");
-	Label infoPage = (Label) parent.lookup("#infopage");
+	Label gradePage = context.gradePage;
+	Label studentPage = context.studentPage;
+	Label teacherPage = context.teacherPage;
+	Label coursePage = context.coursePage;
+	Label infoPage = context.infoPage;
 	Label[] page = {gradePage, studentPage, teacherPage, coursePage, infoPage};
 
-	HBox morePage = (HBox) parent.lookup("#morepage");
-	AnchorPane tablePage = (AnchorPane) parent.lookup("#tablepage");
+	HBox morePage = context.morePage;
+	AnchorPane tablePage = context.tablePage;
 
-	Label termTxt = (Label) parent.lookup("#termtxt");
-	ChoiceBox term = (ChoiceBox) parent.lookup("#term");
-	ChoiceBox condition = (ChoiceBox) parent.lookup("#condition");
+	Label termTxt = context.termTxt;
+	ChoiceBox term = context.term;
+	ChoiceBox condition = context.condition;
+
 	for (Label label : page) {
 	    label.setFont(new Font(13));
 	}
@@ -150,13 +146,13 @@ public class Page {
 	termTxt.setPrefWidth(45);
 	term.setPrefWidth(72);
 
-	todo = new GradeDo();
-	
-	HBox alert = (HBox) parent.lookup("#alert");
-	Label alertTitle = (Label) parent.lookup("#alerttitle");
-	Label alertContent = (Label) parent.lookup("#alertcontent");
-	Button alertCancel = (Button) parent.lookup("#alertcancel");
-	Button alertConfirm = (Button) parent.lookup("#alertconfirm");
+	context.todo = new GradeDo(context);
+
+	HBox alert = context.alert;
+	Label alertTitle = context.alertTitle;
+	Label alertContent = context.alertContent;
+	Button alertCancel = context.alertCancel;
+	Button alertConfirm = context.alertConfirm;
 	Platform.runLater(new Runnable() {
 	    @Override
 	    public void run() {
@@ -193,7 +189,7 @@ public class Page {
 		FXCollections.observableArrayList("全部", "姓名", "学号", "科目", "教师", "分数")
 	);
 	condition.getSelectionModel().select(0);
-	
+
     }
 
 }

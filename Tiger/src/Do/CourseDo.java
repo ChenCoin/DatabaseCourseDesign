@@ -5,30 +5,38 @@
  */
 package Do;
 
+import tiger.Context;
+
 /**
  *
  * @author coin
  */
-public class CourseDo implements Do{
+public class CourseDo implements Do {
+
+    private Context context;
+
+    public CourseDo(Context context) {
+	this.context = context;
+    }
 
     @Override
     public void add() {
-	
+
     }
 
     @Override
     public void search() {
-	
+
     }
 
     @Override
     public void delete() {
-	
+
     }
 
     @Override
     public void motify() {
-	
+
     }
-    
+
 }

@@ -8,7 +8,6 @@ package UI;
 import Do.Do;
 import Do.GradeDo;
 import javafx.scene.Parent;
-import javafx.scene.control.ChoiceBox;
 import tiger.Context;
 
 /**
@@ -24,18 +23,17 @@ public class View {
     }
 
     public void init() {
-	Context context = new Context();
-	Do todo = new GradeDo();
+	Context context = new Context(parent);
+	Do todo = new GradeDo(context);
 
 	ChoiceboxSet choiceboxSet = new ChoiceboxSet(parent, context);
 	choiceboxSet.init();
 
-	Page page = new Page(parent, todo, context);
-	page.init();
-	page.gradepageInit();
+	Page page = new Page(context);
 
-	Event event = new Event(parent, todo, context);
-	event.init();
+	Event event = new Event(context);
+
+	page.gradepageInit();
 
     }
 

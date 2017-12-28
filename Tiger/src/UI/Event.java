@@ -6,13 +6,10 @@
 package UI;
 
 import DB.DBresult;
-import Do.Do;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import tiger.Context;
-import tiger.config;
 
 /**
  *
@@ -20,28 +17,25 @@ import tiger.config;
  */
 public class Event {
 
-    Parent parent;
     Context context;
     DBresult ret;
-    Do todo;
 
-    public Event(Parent parent, Do todo, Context context) {
-	this.parent = parent;
+    public Event(Context context) {
 	this.context = context;
-	this.todo = todo;
+	init();
     }
 
     public void init() {
-	Button searchBtn = (Button) parent.lookup("#searchbtn");
-	Button addBtn = (Button) parent.lookup("#addbtn");
-	Button motifyBtn = (Button) parent.lookup("#motifybtn");
-	Button deleteBtn = (Button) parent.lookup("#deletebtn");
+	Button searchBtn = context.searchBtn;
+	Button addBtn = context.addBtn;
+	Button motifyBtn = context.motifyBtn;
+	Button deleteBtn = context.deleteBtn;
 
 	searchBtn.setOnAction((ActionEvent e) -> {
 	    Platform.runLater(new Runnable() {
 		@Override
 		public void run() {
-		    todo.search();
+		    context.todo.search();
 		}
 	    });
 	});
@@ -50,7 +44,7 @@ public class Event {
 	    Platform.runLater(new Runnable() {
 		@Override
 		public void run() {
-		    todo.add();
+		    context.todo.add();
 		}
 	    });
 	});
@@ -59,7 +53,7 @@ public class Event {
 	    Platform.runLater(new Runnable() {
 		@Override
 		public void run() {
-		    todo.motify();
+		    context.todo.motify();
 		}
 	    });
 	});
@@ -68,7 +62,7 @@ public class Event {
 	    Platform.runLater(new Runnable() {
 		@Override
 		public void run() {
-		    todo.delete();
+		    context.todo.delete();
 		}
 	    });
 	});
