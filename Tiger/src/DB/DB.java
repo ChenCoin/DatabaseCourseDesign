@@ -27,7 +27,7 @@ public class DB {
 	List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 	try {
 	    Class.forName("com.mysql.jdbc.Driver");
-	    String url = "jdbc:mysql://localhost:3306/Tiger?characterEncoding=utf8&useSSL=true";
+	    String url = "jdbc:mysql://localhost:3306/Tiger?characterEncoding=utf8&useSSL=true&useOldAliasMetadataBehavior=true";
 	    Connection conn = DriverManager.getConnection(url, "root", "123");
 	    Statement stmt = conn.createStatement();
 

@@ -7,11 +7,16 @@ package Table;
 
 import java.util.Iterator;
 import java.util.Map;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import tiger.Context;
 
 /**
  *
@@ -19,20 +24,36 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class Table {
 
-    Parent parent;
+    Context context;
     TableView table;
 
-    public Table(Parent parent) {
-	this.parent = parent;
-	table = (TableView) parent.lookup("#grade_table");
+    public Table(Context context) {
+	this.context = context;
+	table = context.tableView;
+
+	table.setEditable(false);
+
+	table.getFocusModel().focusedCellProperty().addListener(
+		new ChangeListener<TablePosition>() {
+	    @Override
+	    public void changed(ObservableValue<? extends TablePosition> observable,
+		    TablePosition oldPos, TablePosition pos) {
+		//System.out.println(oldPos+" "+pos.getRow()+" "+pos.getColumn());
+		if (pos.getRow() >= 0 && pos.getColumn() >= 0) {
+		    context.tableRow = pos.getRow();
+		    itemSelect(true);
+		}
+	    }
+	});
+
     }
-
-    public void show() {
-
+    
+    public void show(){
+	table.setVisible(true);
     }
-
-    public void hide() {
-
+    
+    public void hide(){
+	table.setVisible(false);
     }
 
     public void setCol(Map<String, Object> mMap) {
@@ -49,9 +70,14 @@ public class Table {
 	    table.getColumns().add(Col);
 	}
     }
-//List<Map<String, Object>> mList
-    public void setData(ObservableList<Object> data) {
-	table.setItems(data);
+
+    public void itemSelect(boolean b) {
+	Button motifyBtn = context.motifyBtn;
+	Button deleteBtn = context.deleteBtn;
+
+	motifyBtn.setDisable(!b);
+	deleteBtn.setDisable(!b);
+
     }
 
 }

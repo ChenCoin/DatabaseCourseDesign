@@ -11,12 +11,14 @@ import Do.CourseDo;
 import Do.GradeDo;
 import Do.StudentDo;
 import Do.TeacherDo;
+import Table.Table;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -70,6 +72,16 @@ public class Page {
 	    termTxt.setPrefWidth(0);
 	    term.setPrefWidth(0);
 
+	    condition.setItems(
+		    FXCollections.observableArrayList(context.studentCondition)
+	    );
+	    condition.getSelectionModel().select(0);
+	    ChoiceboxSet choiceboxSet = context.choiceboxSet;
+	    choiceboxSet.student();
+	    
+	    Table table = context.table;
+	    table.hide();
+
 	    context.todo = new StudentDo(context);
 	});
 
@@ -86,6 +98,9 @@ public class Page {
 	    term.setVisible(false);
 	    termTxt.setPrefWidth(0);
 	    term.setPrefWidth(0);
+	    
+	    Table table = context.table;
+	    table.hide();
 
 	    context.todo = new TeacherDo(context);
 	});
@@ -103,6 +118,9 @@ public class Page {
 	    term.setVisible(true);
 	    termTxt.setPrefWidth(45);
 	    term.setPrefWidth(72);
+	    
+	    Table table = context.table;
+	    table.hide();
 
 	    context.todo = new CourseDo(context);
 	});
@@ -133,6 +151,9 @@ public class Page {
 	ChoiceBox term = context.term;
 	ChoiceBox condition = context.condition;
 
+	Table table = context.table;
+	table.hide();
+
 	for (Label label : page) {
 	    label.setFont(new Font(13));
 	}
@@ -153,42 +174,41 @@ public class Page {
 	Label alertContent = context.alertContent;
 	Button alertCancel = context.alertCancel;
 	Button alertConfirm = context.alertConfirm;
-	Platform.runLater(new Runnable() {
-	    @Override
-	    public void run() {
-		DBresult result = DB.query("select DISTINCT term from CourseInfo;");
-		String[] str;
-		if (result.state) {
-		    int length = result.list.size();
-		    str = new String[length + 1];
-		    str[0] = "全部  ";
-		    for (int i = 0; i < length; i++) {
-			str[i + 1] = result.list.get(i).get("term").toString();
-		    }
-		    context.termItem = str;
-		} else {
-		    alert.setVisible(true);
-		    alertTitle.setText("严重错误");
-		    alertContent.setText("执行SQL语句：" + result.SQL + "\n出现错误：" + result.msg);
-		    alertCancel.setOnAction((ActionEvent e) -> {
-			Platform.exit();
-		    });
-		    alertConfirm.setOnAction((ActionEvent e) -> {
-			Platform.exit();
-		    });
-		    str = new String[0];
-		}
-		term.setItems(
-			FXCollections.observableArrayList(str)
-		);
-		term.getSelectionModel().select(0);
+
+	DBresult result = DB.query("select DISTINCT term from CourseInfo;");
+	String[] str;
+	if (result.state) {
+	    int length = result.list.size();
+	    str = new String[length + 1];
+	    str[0] = "全部  ";
+	    for (int i = 0; i < length; i++) {
+		str[i + 1] = result.list.get(i).get("term").toString();
 	    }
-	});
+	    context.termItem = str;
+	} else {
+	    alert.setVisible(true);
+	    alertTitle.setText("严重错误");
+	    alertContent.setText("执行SQL语句：" + result.SQL + "\n出现错误：" + result.msg);
+	    alertCancel.setOnAction((ActionEvent e) -> {
+		Platform.exit();
+	    });
+	    alertConfirm.setOnAction((ActionEvent e) -> {
+		Platform.exit();
+	    });
+	    str = new String[0];
+	}
+	term.setItems(
+		FXCollections.observableArrayList(str)
+	);
+	term.getSelectionModel().select(0);
 
 	condition.setItems(
-		FXCollections.observableArrayList("全部", "姓名", "学号", "科目", "教师", "分数")
+		FXCollections.observableArrayList(context.gradeCondition)
 	);
 	condition.getSelectionModel().select(0);
+
+	ChoiceboxSet choiceboxSet = context.choiceboxSet;
+	choiceboxSet.grade();
 
     }
 

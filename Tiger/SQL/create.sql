@@ -1,7 +1,7 @@
 use Tiger;
 
 create table StudentInfo(
-	StudentID varchar(64) NOT NULL,
+	StudentID int NOT NULL,
 	name varchar(64) NOT NULL,
 	age int,
 	sex enum('male','female'),
@@ -31,7 +31,7 @@ create table CourseInfo(
 )character set = utf8;
 
 create table GradeInfo(
-	StudentID varchar(64) NOT NULL,
+	StudentID int NOT NULL,
 	CourseID varchar(64) NOT NULL,
 	term varchar(64) NOT NULL,
 	state enum('Preselection','Selected'),

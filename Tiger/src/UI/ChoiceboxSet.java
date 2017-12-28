@@ -5,8 +5,13 @@
  */
 package UI;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import tiger.Context;
 
 /**
@@ -14,27 +19,73 @@ import tiger.Context;
  * @author coin
  */
 public class ChoiceboxSet {
-
-    Parent parent;
+    
     Context context;
-
-    public ChoiceboxSet(Parent parent, Context context) {
-	this.parent = parent;
+    
+    private ChoiceBox term;
+    private ChoiceBox condition;
+    
+    private ChangeListener<Number> termListener;
+    private ChangeListener<Number> condListener;
+    
+    public ChoiceboxSet(Context context) {
 	this.context = context;
+	term = context.term;
+	condition = context.condition;
+	grade();
     }
-
-    public void init() {
-	ChoiceBox term = context.term;
-	ChoiceBox condition = context.condition;
-
-	term.getSelectionModel().selectedIndexProperty().addListener((ov, oldv, newv) -> {
-	    context.termCBox = newv.intValue();
-	});
-
-	condition.getSelectionModel().selectedIndexProperty().addListener((ov, oldv, newv) -> {
-	    context.conditionCBox = newv.intValue();
-	});
-
+    
+    public void grade() {
+	termListener = new ChangeListener<Number>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+		context.termCBox = newValue.intValue();
+	    }
+	};
+	
+	condListener = new ChangeListener<Number>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+		int i = newValue.intValue();
+		context.conditionCBox = i;
+		TextField textField1 = context.textField1;
+		if (i == 2 || i == 5) {
+		    textField1.setVisible(false);
+		} else {
+		    textField1.setVisible(true);
+		}
+	    }
+	};
+	
+	add();
     }
-
+    
+    public void student(){
+	condListener = new ChangeListener<Number>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+		int i = newValue.intValue();
+		context.conditionCBox = i;
+		TextField textField1 = context.textField1;
+		if (i == 2 || i == 4) {
+		    textField1.setVisible(false);
+		} else {
+		    textField1.setVisible(true);
+		}
+	    }
+	};
+	
+	add();
+    }
+    
+    public void remove() {
+	term.getSelectionModel().selectedIndexProperty().removeListener(termListener);
+	condition.getSelectionModel().selectedIndexProperty().removeListener(condListener);
+    }
+    
+    private void add() {
+	term.getSelectionModel().selectedIndexProperty().addListener(termListener);
+	condition.getSelectionModel().selectedIndexProperty().addListener(condListener);
+    }
+    
 }

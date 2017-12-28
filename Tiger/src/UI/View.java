@@ -26,9 +26,6 @@ public class View {
 	Context context = new Context(parent);
 	Do todo = new GradeDo(context);
 
-	ChoiceboxSet choiceboxSet = new ChoiceboxSet(parent, context);
-	choiceboxSet.init();
-
 	Page page = new Page(context);
 
 	Event event = new Event(context);
