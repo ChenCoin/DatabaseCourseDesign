@@ -10,7 +10,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -34,6 +33,15 @@ public class TableSet {
 	TableView table = (TableView) parent.lookup("#grade_table");
 
 	table.setEditable(false);
+
+	table.getFocusModel().focusedCellProperty().addListener(
+		new ChangeListener<TablePosition>() {
+	    @Override
+	    public void changed(ObservableValue<? extends TablePosition> observable,
+		    TablePosition oldPos, TablePosition pos) {
+		itemSelect(true);
+	    }
+	});
 
 	TableColumn StudentIDCol = new TableColumn("学号");
 	StudentIDCol.setMinWidth(100);
@@ -65,24 +73,9 @@ public class TableSet {
 	GradeCol.setCellValueFactory(
 		new PropertyValueFactory<>("grade"));
 
-	table.setItems(data);
+	//table.setItems(data);
 	table.getColumns().addAll(StudentIDCol, StudentNameCol, TimeCol, CourseCol, TeacherCol, GradeCol);
 
-	table.getFocusModel().focusedCellProperty().addListener(
-		new ChangeListener<TablePosition>() {
-	    @Override
-	    public void changed(ObservableValue<? extends TablePosition> observable,
-		    TablePosition oldPos, TablePosition pos) {
-		itemSelect(true);
-	    }
-	});
-
-//	Button searchBtn = (Button) parent.lookup("#search_btn");
-//	searchBtn.setOnAction((ActionEvent e) -> {
-//	    if (tableFocus) {
-//		System.out.println(table.getFocusModel().getFocusedCell().getRow());
-//	    }
-//	});
     }
 
     private void itemSelect(boolean b) {
@@ -94,129 +87,25 @@ public class TableSet {
 
     }
 
-    private final ObservableList<TableSet.GradeItem> data
-	    = FXCollections.observableArrayList(
-		    new TableSet.GradeItem("10001", "Smith", "2017下", "语文", "Alice", "86"),
-		    new TableSet.GradeItem("10003", "Bob", "2017下", "语文", "Alice", "76"),
-		    new TableSet.GradeItem("10005", "Cally", "2017下", "数学", "Alice", "96"),
-		    new TableSet.GradeItem("10006", "Devi", "2017下", "语文", "Alice", "66"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
-		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56")
-	    );
+//    private final ObservableList<TableSet.GradeItem> data
+//	    = FXCollections.observableArrayList(
+//		    new TableSet.GradeItem("10001", "Smith", "2017下", "语文", "Alice", "86"),
+//		    new TableSet.GradeItem("10003", "Bob", "2017下", "语文", "Alice", "76"),
+//		    new TableSet.GradeItem("10005", "Cally", "2017下", "数学", "Alice", "96"),
+//		    new TableSet.GradeItem("10006", "Devi", "2017下", "语文", "Alice", "66"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56"),
+//		    new TableSet.GradeItem("10007", "Fly", "2017下", "语文", "Alice", "56")
+//	    );
 
-    boolean tableFocus = false;
-
-    public class GradeItem {
-
-	private final SimpleStringProperty studentID;
-	private final SimpleStringProperty studentName;
-	private final SimpleStringProperty time;
-	private final SimpleStringProperty course;
-	private final SimpleStringProperty teacher;
-	private final SimpleStringProperty grade;
-
-	public GradeItem(String studentID, String studentName, String time, String course, String teacher, String grade) {
-	    this.studentID = new SimpleStringProperty(studentID);
-	    this.studentName = new SimpleStringProperty(studentName);
-	    this.time = new SimpleStringProperty(time);
-	    this.course = new SimpleStringProperty(course);
-	    this.teacher = new SimpleStringProperty(teacher);
-	    this.grade = new SimpleStringProperty(grade);
-	}
-
-	/**
-	 * @return the studentID
-	 */
-	public String getStudentID() {
-	    return studentID.get();
-	}
-
-	/**
-	 * @param studentID the studentID to set
-	 */
-	public void setStudentID(String studentID) {
-	    this.studentID.set(studentID);
-	}
-
-	/**
-	 * @return the studentName
-	 */
-	public String getStudentName() {
-	    return studentName.get();
-	}
-
-	/**
-	 * @param studentName the studentName to set
-	 */
-	public void setStudentName(String studentName) {
-	    this.studentName.set(studentName);
-	}
-
-	/**
-	 * @return the time
-	 */
-	public String getTime() {
-	    return time.get();
-	}
-
-	/**
-	 * @param time the time to set
-	 */
-	public void setTime(String time) {
-	    this.time.set(time);
-	}
-
-	/**
-	 * @return the course
-	 */
-	public String getCourse() {
-	    return course.get();
-	}
-
-	/**
-	 * @param course the course to set
-	 */
-	public void setCourse(String course) {
-	    this.course.set(course);
-	}
-
-	/**
-	 * @return the teacher
-	 */
-	public String getTeacher() {
-	    return teacher.get();
-	}
-
-	/**
-	 * @param teacher the teacher to set
-	 */
-	public void setTeacher(String teacher) {
-	    this.teacher.set(teacher);
-	}
-
-	/**
-	 * @return the grade
-	 */
-	public String getGrade() {
-	    return grade.get();
-	}
-
-	/**
-	 * @param grade the grade to set
-	 */
-	public void setGrade(String grade) {
-	    this.grade.set(grade);
-	}
-    }
 }

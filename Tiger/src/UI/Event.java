@@ -5,12 +5,13 @@
  */
 package UI;
 
-import DB.DB;
 import DB.DBresult;
+import Do.Do;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import tiger.Context;
 import tiger.config;
 
 /**
@@ -20,10 +21,14 @@ import tiger.config;
 public class Event {
 
     Parent parent;
+    Context context;
     DBresult ret;
+    Do todo;
 
-    public Event(Parent parent) {
+    public Event(Parent parent, Do todo, Context context) {
 	this.parent = parent;
+	this.context = context;
+	this.todo = todo;
     }
 
     public void init() {
@@ -33,78 +38,39 @@ public class Event {
 	Button deleteBtn = (Button) parent.lookup("#deletebtn");
 
 	searchBtn.setOnAction((ActionEvent e) -> {
-	    switch (config.pageState) {
-		case grade:
-		    Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-			    ret = DB.query("select * from GradeInfo;");
-			    System.out.println(ret.msg + ret.state);
-			}
-		    });
-		    break;
-		case student:
-		    break;
-		case teacher:
-		    break;
-		case course:
-		    break;
-		case info:
-		    break;
-		default:
-		    break;
-	    }
+	    Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+		    todo.search();
+		}
+	    });
 	});
 
 	addBtn.setOnAction((ActionEvent e) -> {
-	    switch (config.pageState) {
-		case grade:
-		    break;
-		case student:
-		    break;
-		case teacher:
-		    break;
-		case course:
-		    break;
-		case info:
-		    break;
-		default:
-		    break;
-	    }
+	    Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+		    todo.add();
+		}
+	    });
 	});
 
 	motifyBtn.setOnAction((ActionEvent e) -> {
-	    switch (config.pageState) {
-		case grade:
-		    break;
-		case student:
-		    break;
-		case teacher:
-		    break;
-		case course:
-		    break;
-		case info:
-		    break;
-		default:
-		    break;
-	    }
+	    Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+		    todo.motify();
+		}
+	    });
 	});
 
 	deleteBtn.setOnAction((ActionEvent e) -> {
-	    switch (config.pageState) {
-		case grade:
-		    break;
-		case student:
-		    break;
-		case teacher:
-		    break;
-		case course:
-		    break;
-		case info:
-		    break;
-		default:
-		    break;
-	    }
+	    Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+		    todo.delete();
+		}
+	    });
 	});
 
     }
