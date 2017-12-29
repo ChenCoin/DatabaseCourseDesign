@@ -9,6 +9,7 @@ import DB.DB;
 import DB.DBresult;
 import Table.GradeItem;
 import Table.Table;
+import UI.ChoiceboxSet;
 import UI.Confirm;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import tiger.Context;
 
 /**
@@ -36,6 +39,83 @@ public class GradeDo implements Do {
 
     public GradeDo(Context context) {
 	this.context = context;
+	init();
+    }
+
+    public void init() {
+	Label gradePage = context.gradePage;
+	Label studentPage = context.studentPage;
+	Label teacherPage = context.teacherPage;
+	Label coursePage = context.coursePage;
+	Label infoPage = context.infoPage;
+	Label[] page = {gradePage, studentPage, teacherPage, coursePage, infoPage};
+
+	HBox morePage = context.morePage;
+	AnchorPane tablePage = context.tablePage;
+
+	Label termTxt = context.termTxt;
+	ChoiceBox term = context.term;
+	ChoiceBox condition = context.condition;
+
+	Table table = context.table;
+	table.hide();
+
+	for (Label label : page) {
+	    label.setFont(new Font(13));
+	}
+	gradePage.setFont(new Font(17));
+
+	morePage.setVisible(false);
+	tablePage.setVisible(true);
+
+	termTxt.setVisible(true);
+	term.setVisible(true);
+	termTxt.setPrefWidth(45);
+	term.setPrefWidth(72);
+
+	HBox alert = context.alert;
+	Label alertTitle = context.alertTitle;
+	Label alertContent = context.alertContent;
+	Button alertCancel = context.alertCancel;
+	Button alertConfirm = context.alertConfirm;
+
+	DBresult result = DB.query("select DISTINCT term from CourseInfo;");
+	String[] str;
+	if (result.state) {
+	    int length = result.list.size();
+	    str = new String[length + 1];
+	    str[0] = "全部  ";
+	    for (int i = 0; i < length; i++) {
+		str[i + 1] = result.list.get(i).get("term").toString();
+	    }
+	    context.termItem = str;
+	} else {
+	    alert.setVisible(true);
+	    alertTitle.setText("严重错误");
+	    alertContent.setText("执行SQL语句：" + result.SQL + "\n出现错误：" + result.msg);
+	    alertCancel.setOnAction((ActionEvent e) -> {
+		Platform.exit();
+	    });
+	    alertConfirm.setOnAction((ActionEvent e) -> {
+		Platform.exit();
+	    });
+	    str = new String[0];
+	}
+	term.setItems(
+		FXCollections.observableArrayList(str)
+	);
+	term.getSelectionModel().select(0);
+
+	condition.setItems(
+		FXCollections.observableArrayList(context.gradeCondition)
+	);
+	condition.getSelectionModel().select(0);
+
+	ChoiceboxSet choiceboxSet = context.choiceboxSet;
+	choiceboxSet.grade();
+	
+	table.itemSelect(false);
+
     }
 
     @Override
@@ -237,7 +317,7 @@ public class GradeDo implements Do {
 
 		TableView tableView = context.tableView;
 		tableView.setItems(data);
-	    }else{
+	    } else {
 		System.err.println("err with search in DB");
 	    }
 	}

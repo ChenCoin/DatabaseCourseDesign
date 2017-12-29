@@ -5,7 +5,6 @@
  */
 package UI;
 
-import Do.Do;
 import Do.GradeDo;
 import javafx.scene.Parent;
 import tiger.Context;
@@ -24,13 +23,10 @@ public class View {
 
     public void init() {
 	Context context = new Context(parent);
-	Do todo = new GradeDo(context);
 
 	Page page = new Page(context);
 
 	Event event = new Event(context);
-
-	page.gradepageInit();
 
     }
 

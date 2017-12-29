@@ -49,6 +49,11 @@ public class ChoiceboxSet {
 		int i = newValue.intValue();
 		context.conditionCBox = i;
 		TextField textField1 = context.textField1;
+		TextField textField2 = context.textField2;
+		TextField textField3 = context.textField3;
+		textField1.setText("");
+		textField2.setText("");
+		textField3.setText("");
 		if (i == 2 || i == 5) {
 		    textField1.setVisible(false);
 		} else {
@@ -67,6 +72,11 @@ public class ChoiceboxSet {
 		int i = newValue.intValue();
 		context.conditionCBox = i;
 		TextField textField1 = context.textField1;
+		TextField textField2 = context.textField2;
+		TextField textField3 = context.textField3;
+		textField1.setText("");
+		textField2.setText("");
+		textField3.setText("");
 		if (i == 2 || i == 4) {
 		    textField1.setVisible(false);
 		} else {
@@ -75,6 +85,48 @@ public class ChoiceboxSet {
 	    }
 	};
 	
+	add();
+    }
+    
+    public void teacher(){
+	condListener = new ChangeListener<Number>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+		int i = newValue.intValue();
+		context.conditionCBox = i;
+		TextField textField1 = context.textField1;
+		TextField textField2 = context.textField2;
+		TextField textField3 = context.textField3;
+		textField1.setText("");
+		textField2.setText("");
+		textField3.setText("");
+		if (i == 3) {
+		    textField1.setVisible(false);
+		} else {
+		    textField1.setVisible(true);
+		}
+	    }
+	};
+	
+	add();
+    }
+    
+    public void course(){
+	termListener = new ChangeListener<Number>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+		context.termCBox = newValue.intValue();
+	    }
+	};
+	
+	condListener = new ChangeListener<Number>() {
+	    @Override
+	    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+		context.conditionCBox = newValue.intValue();
+		TextField textField1 = context.textField1;
+		textField1.setVisible(true);
+	    }
+	};
 	add();
     }
     

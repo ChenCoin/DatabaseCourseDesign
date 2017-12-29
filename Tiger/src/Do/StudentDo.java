@@ -10,6 +10,7 @@ import DB.DBresult;
 import Table.GradeItem;
 import Table.StudentItem;
 import Table.Table;
+import UI.ChoiceboxSet;
 import UI.Confirm;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import tiger.Context;
 
 /**
@@ -36,6 +40,46 @@ public class StudentDo implements Do {
 
     public StudentDo(Context context) {
 	this.context = context;
+	init();
+    }
+
+    private void init() {
+	Label gradePage = context.gradePage;
+	Label studentPage = context.studentPage;
+	Label teacherPage = context.teacherPage;
+	Label coursePage = context.coursePage;
+	Label infoPage = context.infoPage;
+	Label[] page = {gradePage, studentPage, teacherPage, coursePage, infoPage};
+
+	HBox morePage = context.morePage;
+	AnchorPane tablePage = context.tablePage;
+
+	Label termTxt = context.termTxt;
+	ChoiceBox term = context.term;
+	ChoiceBox condition = context.condition;
+	for (Label label : page) {
+	    label.setFont(new Font(13));
+	}
+	studentPage.setFont(new Font(17));
+
+	morePage.setVisible(false);
+	tablePage.setVisible(true);
+
+	termTxt.setVisible(false);
+	term.setVisible(false);
+	termTxt.setPrefWidth(0);
+	term.setPrefWidth(0);
+
+	condition.setItems(
+		FXCollections.observableArrayList(context.studentCondition)
+	);
+	condition.getSelectionModel().select(0);
+	ChoiceboxSet choiceboxSet = context.choiceboxSet;
+	choiceboxSet.student();
+
+	Table table = context.table;
+	table.hide();
+	table.itemSelect(false);
     }
 
     @Override
@@ -79,7 +123,7 @@ public class StudentDo implements Do {
 		public void run() {
 		    int idNum = str2num(id);
 		    int ageNum = str2num(age);
-		    
+
 		    if (name.equals("") || id.equals("") || age.equals("") || class2.equals("")) {
 			Platform.runLater(() -> {
 			    confirm.show("输入错误", "不能有空的选项",
@@ -111,7 +155,7 @@ public class StudentDo implements Do {
 			});
 			return;
 		    }
-		    
+
 		    String command = "insert into StudentInfo values(" + idNum + ",'" + name + "'," + ageNum + ",'" + Sex + "','" + class2 + "',NULL);";
 
 		    DBresult result = DB.execute(command);
@@ -262,7 +306,7 @@ public class StudentDo implements Do {
 	    TableView tableView = context.tableView;
 	    tableView.setItems(data);
 	} else {
-
+	    System.out.println("err with DB");
 	}
     }
 
@@ -354,7 +398,7 @@ public class StudentDo implements Do {
 	TextField studentactionage = context.studentactionage;
 	studentactionage.setText(age);
 	TextField studentactionsex = context.studentactionsex;
-	sex = (sex.equals("male"))?"男":"女";
+	sex = (sex.equals("male")) ? "男" : "女";
 	studentactionsex.setText(sex);
 	TextField studentactionclass = context.studentactionclass;
 	studentactionclass.setText(class2);
@@ -393,7 +437,7 @@ public class StudentDo implements Do {
 
 	    if (sexNew.equals("男")) {
 		sexNew = "male";
-	    }else if (sexNew.equals("女")) {
+	    } else if (sexNew.equals("女")) {
 		sexNew = "female";
 	    } else {
 		confirm.show("输入错误", "错误的性别",
@@ -414,8 +458,8 @@ public class StudentDo implements Do {
 		    int idNew = str2num(id);
 		    String command = "update StudentInfo\n"
 			    + "set name = '" + nameNew + "',age = " + ageNew2
-			    + ", sex = '"+sexNew2+"',class = '"+class2New+"'\n"
-			    + "where StudentID = "+idNew+";";
+			    + ", sex = '" + sexNew2 + "',class = '" + class2New + "'\n"
+			    + "where StudentID = " + idNew + ";";
 		    DBresult result = DB.execute(command);
 
 		    if (result.state) {

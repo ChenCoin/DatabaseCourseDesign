@@ -57,10 +57,31 @@ public class Context {
 	}
     };
 
-    public Do todo = new GradeDo(this);
+    public String[] teacherCondition = {"全部", "姓名", "性别", "年龄"};
+    public Map<String, Object> teacherColMap = new LinkedHashMap<String, Object>() {
+	{
+	    this.put("工号", "teacherID");
+	    this.put("姓名", "name");
+	    this.put("年龄", "age");
+	    this.put("性别", "sex");
+	}
+    };
 
-    public Table table;
+    public String[] courseCondition = {"全部", "编号", "教师", "名称"};
+    public Map<String, Object> courseColMap = new LinkedHashMap<String, Object>() {
+	{
+	    this.put("编号", "courseID");
+	    this.put("名称", "name");
+	    this.put("教师", "teacherID");
+	    this.put("学期", "term");
+	    this.put("总分", "grade");
+	}
+    };
+
     public int tableRow = -1;
+
+    public Do todo;
+    public Table table;
     public ChoiceboxSet choiceboxSet;
     public Confirm confirm;
 
@@ -70,9 +91,10 @@ public class Context {
     public Context(Parent parent) {
 	this.parent = parent;
 	init();
+	confirm = new Confirm(this);
 	table = new Table(this);
 	choiceboxSet = new ChoiceboxSet(this);
-	confirm = new Confirm(this);
+	todo = new GradeDo(this);
     }
 
     public ChoiceBox term;
@@ -126,6 +148,25 @@ public class Context {
     public Button studentactioncancel;
     public Button studentactionconfirm;
 
+    public HBox teacheraction;
+    public Label teacheractiontitle;
+    public TextField teacheractionname;
+    public TextField teacheractionid;
+    public TextField teacheractionage;
+    public TextField teacheractionsex;
+    public Button teacheractioncancel;
+    public Button teacheractionconfirm;
+
+    public HBox courseaction;
+    public Label courseactiontitle;
+    public TextField courseactionid;
+    public TextField courseactionname;
+    public TextField courseactionteacher;
+    public TextField courseactionterm;
+    public TextField courseactiongrade;
+    public Button courseactioncancel;
+    public Button courseactionconfirm;
+
     private void init() {
 	term = (ChoiceBox) parent.lookup("#term");
 	condition = (ChoiceBox) parent.lookup("#condition");
@@ -177,6 +218,25 @@ public class Context {
 	studentactionclass = (TextField) parent.lookup("#studentactionclass");
 	studentactioncancel = (Button) parent.lookup("#studentactioncancel");
 	studentactionconfirm = (Button) parent.lookup("#studentactionconfirm");
+
+	teacheraction = (HBox) parent.lookup("#teacheraction");
+	teacheractiontitle = (Label) parent.lookup("#teacheractiontitle");
+	teacheractionname = (TextField) parent.lookup("#teacheractionname");
+	teacheractionid = (TextField) parent.lookup("#teacheractionid");
+	teacheractionage = (TextField) parent.lookup("#teacheractionage");
+	teacheractionsex = (TextField) parent.lookup("#teacheractionsex");
+	teacheractioncancel = (Button) parent.lookup("#teacheractioncancel");
+	teacheractionconfirm = (Button) parent.lookup("#teacheractionconfirm");
+	
+	courseaction = (HBox) parent.lookup("#courseaction");
+	courseactiontitle = (Label) parent.lookup("#courseactiontitle");
+	courseactionid = (TextField) parent.lookup("#courseactionid");
+	courseactionname = (TextField) parent.lookup("#courseactionname");
+	courseactionteacher = (TextField) parent.lookup("#courseactionteacher");
+	courseactionterm = (TextField) parent.lookup("#courseactionterm");
+	courseactiongrade = (TextField) parent.lookup("#courseactiongrade");
+	courseactioncancel = (Button) parent.lookup("#courseactioncancel");
+	courseactionconfirm = (Button) parent.lookup("#courseactionconfirm");
 
     }
 

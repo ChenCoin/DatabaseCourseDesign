@@ -87,4 +87,8 @@ and open the template in the editor.
     -fx-effect: dropshadow( one-pass-box , #CDCDCD , 4 , 0.0 , 0 , 2 );
 }
 
+.confirm{
+    -fx-effect: dropshadow( one-pass-box , #333333 , 8 , 0.0 , 2 , 2 );
+}
+
 
